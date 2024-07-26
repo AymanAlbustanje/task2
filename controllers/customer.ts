@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Customer } from '../db/entities/customer';
 import { AppError } from '../errors/AppError';
+import { QueryFailedError } from 'typeorm';
 
 const createCustomer = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -45,12 +46,17 @@ const editCustomer = async (req: Request, res: Response, next: NextFunction) => 
             throw new AppError('Customer not found', 404, true);
         }
 
+        const existingCustomer = await Customer.findOneBy({ mobilePhone });
+        if (existingCustomer && existingCustomer.id !== id) {
+            throw new AppError('Mobile phone number already in use', 409, true);
+        }
+
         customer.name = name;
         customer.mobilePhone = mobilePhone;
         customer.balance = balance;
-        await customer.save();
-        res.status(200).send(customer);
-        
+
+        const updatedCustomer = await customer.save();
+        res.status(200).send(updatedCustomer);
     } catch (error) {
         next(error);
     }
