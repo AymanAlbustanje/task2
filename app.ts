@@ -1,6 +1,6 @@
 import { Request, Response, Express } from "express";
 import express from 'express'
-
+import dataSource from "./db/dbConfig.js";
 
 
 const app: Express = express();
@@ -26,33 +26,24 @@ app.get("/data", (req: Request, res: Response) => {
 })
 
 
-let Server = app.listen(PORT, () => {
-
-    console.log("port is running on the " + PORT);
+dataSource.initialize().then(() => {
+    console.log("connected to DB");
+}).catch(err => {
+    console.error('Failed to connect to DB: ' + err);
 });
 
 
-
-
-
-
-
-
-// Handle the connection.
-Server.on("connection", (connection: any) => {
-    connections.push(connection);
-
-    connection.on("close", function () {
-        connections = connections.filter((cur: any) => {
-            cur !== connection
-        })
-    })
-})
-
-// Close the Connection.
-connections.forEach((curr: any) => {
-    curr.close();
+app.listen(PORT, () => {
+    console.log(`server is running on host: http://localhost:${PORT}`);
 });
 
+export default app;
 
-module.exports = { app, Server }
+
+
+
+
+
+
+
+module.exports = app
