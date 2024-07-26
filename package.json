@@ -3,6 +3,7 @@
   "version": "1.1.1",
   "description": "Create Express app is a tamplate which is use to Create a express app templete api",
   "main": "app.js",
+  "type": "module",
   "bin": {
     "create-express": "./bin/createExpress.js"
   },
