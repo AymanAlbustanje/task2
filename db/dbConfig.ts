@@ -1,4 +1,5 @@
 import { DataSource } from "typeorm";
+import { Customer } from "./entities/customer";
 
 
 const dataSource = new DataSource({
@@ -10,7 +11,7 @@ const dataSource = new DataSource({
     database: "mydb",
     synchronize: true,
     logging: false,
-    entities: []
+    entities: [Customer]
 })
 
 export default dataSource;
