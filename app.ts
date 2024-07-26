@@ -1,49 +1,21 @@
-import { Request, Response, Express } from "express";
-import express from 'express'
-import dataSource from "./db/dbConfig.js";
-
+import express, { Request, Response, Express } from 'express';
+import customer from './routes/customer';
+import dataSource from './db/dbConfig';
 
 const app: Express = express();
-const PORT: Number = 3000;
-const Root: "/" = "/";
-let con: number = 0;
-let connections: any = [];
+const PORT: number = 3000;
 
-
-
-
-// Route.
-app.get(Root, (req: Request, res: Response) => {
-    res.send("hello world");
-})
-
-app.get("/data", (req: Request, res: Response) => {
-    res.json({
-        data: 'success',
-        Type: true,
-    });
-
-})
-
+app.use(express.json());
+app.use('/customers', customer);
 
 dataSource.initialize().then(() => {
-    console.log("connected to DB");
+    console.log('Connected to DB');
 }).catch(err => {
     console.error('Failed to connect to DB: ' + err);
 });
 
-
 app.listen(PORT, () => {
-    console.log(`server is running on host: http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 export default app;
-
-
-
-
-
-
-
-
-module.exports = app
