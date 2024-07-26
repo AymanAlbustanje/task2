@@ -50,6 +50,7 @@ const editCustomer = async (req: Request, res: Response, next: NextFunction) => 
         customer.balance = balance;
         await customer.save();
         res.status(200).send(customer);
+        
     } catch (error) {
         next(error);
     }
