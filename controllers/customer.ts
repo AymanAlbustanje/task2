@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { Customer } from '../db/entities/customer';
 import { AppError } from '../errors/AppError';
-import { QueryFailedError } from 'typeorm';
 
 const createCustomer = async (req: Request, res: Response, next: NextFunction) => {
     try {

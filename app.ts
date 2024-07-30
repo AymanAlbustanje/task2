@@ -1,4 +1,4 @@
-import express, { Request, Response, Express } from 'express';
+import express, { Express } from 'express';
 import customer from './routes/customer';
 import dataSource from './db/dbConfig';
 import { customErrorHandler, DefaultErrorHandler } from './middleware/errorHandler';
